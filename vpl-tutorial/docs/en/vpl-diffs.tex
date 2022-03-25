@@ -1,0 +1,56 @@
+% !TeX root = vpl.tex
+
+\chapter*{VPL Tutorial Version History}
+
+\paragraph{Version 1.5}
+
+\begin{itemize}
+
+\item Events are now implemented using the AESL programming language structure \p{when} instead of \p{if}. This means that events will occur only when the event initially occurs and not repeatedly, as explained on page~\pageref{p.if-when}. This change might cause unexpected behavior in some programs described in this tutorial.
+
+\item Dynamic feedback of the execution is implemented (page~\pageref{p.feedback}).
+
+\end{itemize}
+
+\paragraph{Version 1.4}
+
+\begin{itemize}
+
+\item The graphic design of the buttons for the blocks has been changed,
+primarily to support additional features.
+
+\item In 1.3, a \emph{red} box in the event block for a horizontal
+sensor caused an event when the sensor detected an object, while a
+\emph{white} box caused an event when there was no object in front of
+the sensor. In 1.4, a \emph{white} box causes an event when a lot of
+reflected light is detected from an object, while a \emph{black} box
+causes an event when little or no reflected light is detected because
+there is no object in front of the sensor
+(pages~\pageref{p.proximity-colors1},~\pageref{p.proximity-colors2}).
+The ground sensors also use white and black, instead of white and red,
+but the behavior in 1.4 is the same as in 1.3 except that black is used
+instead of red.
+
+\item In advanced mode, the thresholds of sensors can be
+set (page~\pageref{p.proximity-sensitivity}).
+
+\item In advanced mode, an event can be associated with ranges of values
+of the forward/backward and left/right accelerometers
+(page~\pageref{p.accel}).
+
+\item Multiple actions associated with an event (page~\pageref{p.multiple}).
+
+\item Blocks and event-actions pairs can be copied
+(page~\pageref{p.copy-pairs}).
+
+\item Screenshots of VPL programs can be exported in several
+ graphics formats (page~\pageref{p.export}).
+
+\item Undo/Redo buttons have been added (page~\pageref{p.undo}).
+
+\item The Run button blinks green when the program has been changed
+(page~\pageref{p.blink}).
+
+\item It is no longer possible to change the color scheme of VPL.
+
+\end{itemize}

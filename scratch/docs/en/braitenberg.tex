@@ -1,0 +1,122 @@
+\chap{Braitenberg Creatures}\label{ch.brait}
+
+\sect{What are Braitenberg creatures?}
+
+\href{http://en.wikipedia.org/wiki/Valentino_Braitenberg}{Valentino
+Braitenberg} was a neuroscientist who wrote a book describing
+the design of virtual vehicles which exhibited surprisingly complex
+behavior.\footnote{V. Braitenberg. \textit{Vehicles: Experiments in
+Synthetic Psychology} (MIT Press, 1984).} Braitenberg's vehicles have
+been widely used in educational robotics. Researchers at the MIT Media
+Lab created hardware implementations of the vehicles called
+\emph{Braitenberg creatures}.\footnote{David W. Hogg, Fred Martin,
+Mitchel Resnick. \textit{Braitenberg Creatures}. MIT Media Laboratory,
+E\&L Memo 13, 1991.
+\href{http://cosmo.nyu.edu/hogg/lego/braitenberg_vehicles.pdf}{http://cosmo.nyu.edu/hogg/lego/braitenberg\_vehicles.pdf}.} The
+vehicles were build from \emph{programmable bricks} that were the
+forerunner of the LEGO Mindstorms robotics kits.
+
+This document describes an implementation in Scratch of most of the
+Braitenberg creatures from the MIT report. The implementation is based
+upon a simulation in Scratch of the Thymio robot using the VPL
+programming environment. It is intended to be used as an introduction to
+Thymio / VPL for students with experience in Scratch.
+
+The MIT hardware used light and touch sensors, while the Thymio robot
+relies primarily on infrared proximity sensors. To enable comparison
+with the MIT report, the names of the creatures used there have been
+retained, even though they may not be appropriate for the Thymio
+implementations. The order of presentation from the report has also been
+retained, although this does not correspond to the difficulty of
+implementation in either Scratch or VPL.
+
+\newpage
+
+\sect{Overview}
+
+The project \p{template} contains the necessary sprites, the costumes
+and the outline of the scripts. The Braitenberg projects can be built
+starting with this project. 
+
+The Thymio robot is simulated by a sprite called \p{Thymio} that appears
+on the screen as:
+
+\gr{thymio}{.2}
+
+The sprite has seven costumes: the \p{blank} costume shown above; four
+costumes (\p{center}, \p{right}, \p{left}, \p{rear}) with the
+corresponding sensors lit, and two (\p{red}, \p{green}) with the top
+lights turned on.
+
+The \p{Thymio} sprite \emph{detects an object} when the mouse pointer is
+close to the sprite. A new block called \p{get-pointer-direction}
+returns in the variable \p{direction-to-pointer} the angle from the
+sprite to the mouse pointer.\footnote{The implementation is described in
+Appendix~\ref{ch.implementation}, except that the direction is to the
+mouse pointer and not to a pointer sprite.} Zero degrees is the
+direction that the \p{Thymio} faces and the angles increase clockwise.
+The following test script in the template project demonstrates how the
+simulation works:
+
+\gr{template}{.5}
+
+Start the program by clicking on the green flag. If the mouse pointer is
+near the \p{Thymio} sprite, the sprite says the direction to the
+pointer.
+
+\newpage
+
+\sect{Specification of the creatures}
+
+\begin{description}
+
+\item[Timid] When the robot does not detect an object, it moves forwards.
+When it detects an object, it stops.
+
+\item[Indecisive] When the robot does not detect an object, it moves
+forwards. When it detects an object, it moves backwards. Experiment with
+the definition of the distances for ``detect'' and ``not detect'' so
+that the robot \emph{oscillates}: move forwards and backwards in
+succession.
+
+\item[Paranoid] When the robot detects an object, it moves forwards. When
+it does not detect an object, it turns to the left.
+
+\textbf{Paranoid1} When an object is detected by the center sensor of
+the robot, it moves forwards. When an object is detected by the right
+sensor, it turns right. When an object is detected by the left sensor,
+it turns left.
+
+\item[Dogged] When the robot detects an object in front, it moves
+backwards. When the robot detects an object in back, it moves forwards.
+When an object is not detected, it stops.
+
+\item[Insecure] If an object is detected by the left sensor, the robot
+turns right. If an object is not detected by the left sensor, it turns
+left. Experiment with the angles of the turns until the robot can track
+the mouse pointer placed ahead and to its left.
+
+\item[Driven] If an object is detected by the left sensor, the robot
+turns left. If an object is detected by the right sensor, it turns
+right. The robot will approach the mouse pointer in a zigzag.
+
+\item[Persistent] The robot moves forwards until it detects an object.
+It then moves backwards for one second and reverses to move forwards
+again.
+
+\item[Attractive and repulsive] When an object approaches the robot from
+behind, the robot moves forward until the object is no longer detected.
+
+\item[Consistent] The robot cycles through four states when it is
+clicked on: moving forwards, turning left, turning right, moving
+backwards.
+
+\item[Frantic] The top light flashes red.
+
+\item[Observant] The robot turns the top light green when the right
+sensor detects an object. The robot turns the top light red when the
+left sensor detects an object. Once a light is turned on, the robot
+waits three seconds before turning off; during this period, the light
+does not change.
+
+\end{description}

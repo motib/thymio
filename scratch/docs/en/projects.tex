@@ -1,0 +1,198 @@
+\chap{Guided Projects}\label{ch.projects}
+
+These projects introduce no new concepts so we present them as a guided
+projects.
+
+\sect{Line following}
+
+\scrprj{follow-line}
+
+Construct a backdrop with a wide line that represesnts a strip of black
+tape on the floor:
+
+\gr{line}{.2}
+
+Next, import the costume called \p{ground}:
+
+\gr{ground}{.2}
+
+This costume has two small areas projecting from the front of the robot
+and is used to implement the block \scrblk[-6]{get-touching-block} as
+described in \cref{ch.implementation}. The block returns in the variable
+\scrblk{is-touching} one of \p{both}, \p{left}, \p{right}, \p{neither}
+depending on which projecting area is touching the black area on the
+stage. The \p{Thymio} sprite needs one script whose algorithm is shown
+in \cref{fig.line-following}.
+
+\begin{figure}
+\begin{footnotesize}
+\begin{verbatim}
+initialize the position of the Thymio
+forever
+    call get-touching-block
+    if is-touching = both
+        move forward
+    else
+        if is-touching = right
+            turn right
+        else
+            if is-touching = left
+                turn left
+            else
+                stop the script
+\end{verbatim}
+\end{footnotesize}
+\caption{Algorithm for line following}\label{fig.line-following}
+\end{figure}
+
+\subsection*{Real robots don't move straight}
+
+From your experience with the Thymio robot, you know that it will not
+move straight even if both motors are set to the same power. The wheels
+and motors are not identical, the friction may vary, and so on. This
+noisy behavior is called \emph{jitter}. Place the following block before
+first \p{move} block to simulate jitter:
+
+\gr{jitter}{.4}
+
+The block causes the robot to turn by an angle that is randomly chosen
+in the range $-20$ to $20$. You will see that the robot moves very
+erratically, but the algorithm succeeds in keeping the robot on the line.
+
+
+\sect{Sweeping the floor}
+
+\scrprj{sweep}
+
+We want the \p{Thymio} sprite to traverse the stage so as to cover the
+whole surface:
+
+\gr{sweep-stage}{.3}
+
+In order the evaluate the quality of the sweep, the robot draws a thin
+red line as it moves. \scrblk{pen-down} causes an imaginary pen in the
+sprite to be lowered ``down'' so that it is in contact with the stage.
+The pen color is set to red.
+
+The simulation could be programmed simply by commanding the
+sprite to move the correct distances---$280$ steps horizontally and
+$60$ steps vertically---turning right and left by $90^{\circ}$ as
+required. However, there is no way to command the Thymio \emph{robot} to
+travel a certain distance. All we can do is to set the motors to a
+constant power for a fixed time, but the speed will not be precisely
+constant for the reasons mentioned above, so the distance will not be
+predictable.
+
+\begin{figure}
+\gr{sweep1}{.35}
+\caption{Sweeping the stage}\label{fig.sweep}
+\end{figure}
+
+The script shown in \cref{fig.sweep} causes the sprite to move 4 steps
+at a time. A second script (not shown) consists of a
+\scrblk[-15]{repeat-until} block that contains blocks for left and right
+turns of $90^{\circ}$ with \scrblk{wait03} blocks between them. Adjust
+the durations in the \p{wait} blocks to obtain a good sweep of the
+stage.
+
+\sect{Finite automata}
+
+\scrprj{finite-automaton}
+
+The finite automata project in the VPL tutorial was inspired by the
+light-painting projects described on the Thymio website. The idea is to
+have the robot sweep over an area and respond to codes placed on the
+floor. The code consists of sync (synchronization) marks and marks of symbols
+on the stage. \cref{fig.fa} shows the stage with 4 rows of 4 sync marks
+(the blue circles) and 9 vertical black lines representing the symbol 1.
+
+\begin{figure}[htb]
+\gr{fa-stage}{.3}
+\caption{Synchronization and symbol marks}\label{fig.fa}
+\end{figure}
+
+\newpage
+
+The \p{Thymio} sprite is required to sweep the stage and record the number
+of 1's. (For a finite automata we need to specify a finite range, such
+whether the number of 1 symbols is even or odd. This can be done using
+the \p{mod} operator.)
+
+The sprite can be in three states: (1) it is touching a sync mark alone,
+(2) it is touching both a sync mark and the black line encoding 1, and
+(3) it is touching neither. Use \scrblk{touching-color-blue} to detect
+the blue ball representing the sync marks and
+\scrblk{touching-color-black} to detect black line representing 1.
+
+To check the behavior of the sprite,
+display different colored top lights in each state.
+
+\warningbox{The sync marks should be sufficiently far apart so that
+the \p{Thymio} sprite doesn't touch two marks at the same time.}
+
+\subsection*{Synchronizing the sprites}
+
+There will be two sprites: the \p{Thymio} sprite that sweeps the floor
+and decodes the marks, and a \p{ball} sprite that stamps marks on the
+stage before the \p{Thymio} sprite starts to move. Use messages to
+synchronize the sprites:
+
+\begin{itemize}
+\item The \p{Thymio} sprite performs initialization and then
+broadcasts the message \p{draw}.
+\item When the \p{ball} sprite receives the \p{draw} message, it stamps the
+marks and then broadcasts the message \p{go}.
+\item When the other scripts in the \p{Thymio} sprite receive the
+\p{do} message, they begin the tasks of sweeping the stage and decoding
+the marks.
+\end{itemize}
+
+\sect{Timed behavior}
+
+\scrprj{shy}
+
+Specification: If the \p{Pointer} is clicked opposite the right sensor,
+the \p{Thymio} sprite turns until the \p{Pointer} is opposite the center
+sensor and then 4 seconds later turns back. Similarly, if the
+\p{Pointer} is clicked opposite the left sensor. Be sure that the small
+red lights on the left, right and center sensors are turned on and off as
+appropriate.
+
+Guidance: The behavior for detection by the left and right sensors is
+the same except for the costumes. Create a new block
+\p{turn-and-turn-back} with one parameter---the direction---that
+includes all the blocks needed to implement the behavior of the
+\p{Thymio} sprite once the \p{Pointer} sprite is detected.
+
+\newpage
+
+\sect{Catch the mouse}
+
+\scrprj{mouse}
+
+Specification:
+
+\begin{itemize}
+\item The \p{Thymio} sprite detects a click of the \p{Pointer} sprite
+opposite its left sensor.
+\item It turns left (counterclockwise) until the right sensor points
+towards the \p{Pointer}.
+\item It turns right (clockwise) until the center sensor points towards
+the \p{Pointer}.
+\item It moves towards the point of the click and then stops.
+\end{itemize}
+
+Guidance:
+
+\begin{itemize}
+
+\item Declare a variable that takes four values:
+\p{search-left}, \p{search-right}, \p{found}, \p{stop}. This variable
+will take on successive values as it accomplishes each part of the
+mission.
+
+\item The behavior of the \p{Thymio} sprite will depend on which state
+it is in. It is convenient to define new blocks for each state:
+\p{go-left}, \p{go-right}, \p{catch-mouse}.
+
+\end{itemize}

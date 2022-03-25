@@ -1,0 +1,55 @@
+\chap{Defining New Blocks}\label{ch.new}
+
+\scrprj{likes}
+
+The project \bu{likes} is similar to \bu{obeys} except that the
+\p{Thymio} sprite turns towards the object when one is detected by the
+left or right sensors and not just by the center sensor:
+
+\begin{footnotesize}
+\begin{verbatim}
+if center sensor faces Pointer
+    switch costume to center
+    go to Pointer
+else
+  if right sensor faces Pointer
+      switch costume to right
+      go to Pointer
+  else
+    if left sensor faces Pointer
+      switch costume to left
+      go to Pointer
+\end{verbatim}
+\end{footnotesize}
+
+In Scratch, we can define new blocks such as
+\scrblk[-8]{go-to-pointer-block}. Once the block is defined, we can use it
+to write the script for \bu{likes} (\cref{fig.likes}).
+
+\begin{figure}
+\gr{likes}{.75}
+\caption{Script for \bu{likes}}\label{fig.likes}
+\end{figure}
+
+How do we define the new block? Go to the palette \bu{More Blocks} and
+click on \scrblk{make-block}. Enter the name of the new
+block, \p{go-to-pointer}, in the purple field in the \p{New block} window
+that is opened. This will create the block \scrblk[-10]{define-go-to-pointer}
+block in the script area and the \scrblk[-8]{go-to-pointer-block} in the block
+area for this palette. Now you can drag-and-drop the blocks required to
+implement the new block (\cref{fig.go-to}).
+
+\trickbox{When defining a new block, click on \bu{Options} and \bu{Run
+without screen refresh}. This ensures that the new block is run as one
+action and the user does not see the result of running each block in the
+definition.}
+
+The new block \scrblk[-8]{go-to-pointer-block} can be used in different
+scripts and even more than once in the same script as shown in
+\cref{fig.likes}. Clearly, this script is much shorter than it would be
+if we had to copy the blocks again and again.
+
+\begin{figure}
+\gr{go-to-pointer}{.5}
+\caption{Definition of the block \bu{go-to-pointer}}\label{fig.go-to}
+\end{figure}

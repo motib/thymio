@@ -1,0 +1,97 @@
+\chap{Implementation}\label{ch.implementation}
+
+This Appendix explains advanced programming techniques in Scratch that
+were used in the simulations of the Thymio robot. The details are
+encapsulated in sprites and new blocks so that the student need not be
+concerned with them, but the Appendix can serve are a tutorial to these
+programming techniques.
+
+\sect{The {\ttfamily Pointer} sprite}
+
+The \emph{touching} blocks from the \bu{Sensing} palette are used to
+detect events. They are condition blocks that return true if the
+\textbf{\emph{sprite running the script where the block appears}}
+touches something else.
+
+\begin{itemize}
+\item \scrblk{touching} returns true if the sprite is touching another
+sprite or the mouse pointer.
+
+\item \scrblk{touching-color} returns true if the sprite is touching an area
+with this color.
+
+\item \scrblk{color-touching-color} returns true if an area
+\textbf{\emph{on this sprite}} with the first color is touching an area
+with the second color.
+
+\end{itemize}
+
+\trickbox{To set the color, click the little square,
+move the mouse pointer and click an area on a sprite or the
+backdrop that has the color you want.}
+
+Scratch does not support checking if the mouse pointer is touching
+a color; therefore, we define a sprite called \p{Pointer} that tracks
+the location of the mouse pointer (\cref{fig.track}). The costume of
+this sprite is a very small gray dot that the user will not see.
+
+\begin{figure}[htb]
+\gr{go-to-mouse-pointer}{.25}
+\caption{Tracking the mouse pointer}\label{fig.track}
+\end{figure}
+
+To simulate the buttons on the Thymio robot, the image of the \p{Thymio}
+sprite has different colors for each button. When the \p{Pointer} sprite
+is clicked, the script in \cref{fig.buttons} checks if it is touching
+one of the colors and broadcasts the appropriate message.
+
+\begin{figure}[htb]
+\gr{click-on-buttons}{.3}
+\caption{Sensing a click on the buttons}\label{fig.buttons}
+\end{figure}
+
+
+\sect{Computing the direction to the {\ttfamily Pointer} sprite}
+
+Many projects require that the direction from the \p{Thymio} sprite to
+the \p{Pointer} sprite be determined. The implementation of the block
+\scrblk[-6]{get-pointer-direction-block} is shown in \cref{fig.get-dir}.
+The variable \scrblk[-3]{save-dir} is used internally
+by this block, and the variable \scrblk[-3]{direction-to-pointer} is
+used to return the direction to the calling sprite. Extensive use is
+made of the block \scrblk[-3]{direction} which is predefined in the
+\bu{Motion} palette and gives the current direction in which the sprite
+is pointing.
+
+\begin{figure}[htb]
+\gr{get-pointer-direction}{.5}
+\caption{Get the direction to the \p{Pointer} sprite}\label{fig.get-dir}
+\end{figure}
+
+The \emph{current direction} in which the sprite is pointing is saved in
+\scrblk[-3]{save-dir}. Then, the \p{Thymio} sprite is turned so that it
+points to the \p{Pointer} sprite. The block \scrblk[-3]{direction} now
+contains this new direction. By subtracting the value in
+\scrblk[-3]{save-dir} we get the difference between the two directions. The
+\p{if}-block ensures that this direction is positive between 0 and 360.
+Finally, we turn the \p{Thymio} sprite to point in its original
+direction which was stored in \scrblk[-3]{save-dir}.
+
+
+\sect{Simulating the botton sensors}
+
+To simuate the bottom sensors, create a new costume for the \p{Thymio}
+sprite with light-colored areas projecting out in front of the image:
+
+\gr{ground}{.25}
+
+Now declare a variable \scrblk[-4]{is-touching} and define the block
+\scrblk[-6]{get-touching-block} (\cref{fig.get-touching}), which returns in
+\scrblk[-4]{is-touching} one of \p{both}, \p{left}, \p{right}, \p{neither}
+depending on which projecting area is touching the black area on the
+stage.
+
+\begin{figure}
+\gr{get-touching}{.6}
+\caption{Simulation of the ground sensors}\label{fig.get-touching}
+\end{figure}

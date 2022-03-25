@@ -1,0 +1,35 @@
+\chap{Catch the Speeders}\label{ch.radar}
+
+\textbf{Specification}
+
+Help the police catch drivers who travel at high speed. Measure the
+speed by detecting how far the car travels in a fixed period of time.
+
+The robot detects an object moving from its left side to its right side
+in front of the sensors. Turn the top light a different color to
+indicate how far the object has moved during one second from when it is
+first detected by the leftmost sensor.
+
+\textbf{Guidance}
+
+\begin{itemize}
+
+\item In the initial state, when the leftmost sensor detects the object,
+start a one-second timer.
+
+\item When the timer expires, change the state to a new state; let us
+call it the \emph{measure} state.
+
+\item Construct four event-actions pairs, one with an event for each of
+the other sensors; the event will only occur in the measure state. When
+a sensor detects the object, it turns the top light on to a color
+associated with that sensor.
+
+\item Ensure that an event-actions pair is run only when the object is
+detected by the corresponding sensor and not by the neighboring sensors.
+
+\end{itemize}
+
+\bigskip
+
+{\raggedleft \hfill Program file \bu{speeders.aesl}}

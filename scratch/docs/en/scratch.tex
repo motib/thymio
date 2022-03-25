@@ -1,0 +1,29 @@
+\documentclass[11pt,a4paper,english]{report}
+
+\usepackage{vpl}
+\usepackage{mathpazo}
+\renewcommand*\familydefault{\rmdefault}
+
+\graphicspath{{../../images/}}
+
+% Inline block (graphics)
+\newcommand*{\scrblk}[2][-5]{\raisebox{#1pt}%
+{\includegraphics[scale=1]{#2}}}
+
+% Scratch project name
+\newcommand*{\scrprj}[1]{{\raggedleft\hfill Scratch project: \bu{#1}}}
+
+%\includeonly{}
+
+\begin{document}
+\include{front}
+\include{preface}
+\include{events}
+\include{moving}
+\include{new-blocks}
+\include{variables}
+\include{projects}
+\include{braitenberg}
+\appendix
+\include{implementation}
+\end{document}

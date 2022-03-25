@@ -1,0 +1,143 @@
+\chap{Moving Sprites}\label{ch.moving}
+
+\scrprj{moving}
+
+In the project \bu{moving}, the robot moves forwards and backwards when
+the front and back buttons are touched, and it stops when the center
+button is touched. In Scratch, a sprite will move on the screen in
+response to running blocks from the \bu{Motion} palette.
+
+The following script initializes the sprite to start at the left
+side of the stage, pointing right ($90^{\circ}$):
+
+\gr{moving1}{.3}
+
+The size of the stage is from $-240$ to $240$ pixels (picture elements)
+in the $x$ (horizontal) direction and $-180$ to $180$ pixels in the $y$
+(vertical) direction. You can explore these values by moving your mouse
+around the stage; its position is displayed below the lower right corner
+of the stage. The initial position of the \p{Thymio} sprite is set to
+$(-100,0)$, so that it is at the left edge of the stage and centered
+vertically.
+
+The sprite runs the following script when it receives the message
+\p{front} that is broadcast when the front button is clicked:
+
+\gr{moving2}{.3}
+
+The block \scrblk{move} is contained within a
+\scrblk[-10]{forever} block that causes the instruction to be run
+repeatedly. This will cause the sprite to move steadily in the direction
+it is pointing.
+
+The \scrblk{wait03} block causes the program to wait 0.3 seconds before
+continuing with the next block. This slows down the movement and makes
+it easier to click on a button.
+
+The script for responding to the \p{back} message is the same as that
+for the front message, except that the sprite is made to point left
+($-90^{\circ}$):
+
+\gr{moving3}{.3}
+
+When the \p{center} message is received, all the scripts in the
+program are stopped:
+
+\gr{moving4}{.3}
+
+\warningbox{Turning the sprite to move in the direction $-90^{\circ}$
+will also cause the \emph{image} of the sprite to turn $180^{\circ}$. To
+prevent this, select the \p{Thymio} sprite icon in the area below the
+stage and click on the small \bu{i} in the icon. Then click on the dot
+which is one of the options in \bu{rotation style}.}
+
+\sect{Directions}
+
+\scrprj{obeys}
+
+The \p{Thymio} can behave like a pet, following you around. In project
+\bu{obeys}, click the mouse closer and closer to the center sensor on
+the image of the \p{Thymio} sprite. When it is close enough, the red light
+on the sensor turns on and the robot moves towards the pointer, stopping
+when it is close.
+
+Initialize the project as in \bu{moving} adding the block
+\scrblk{switch-costume-to-blank}. The main script for this project is
+shown in \cref{fig.move-to}. The script starts running when it receives
+the message \p{Come}, which is sent by the \p{Pointer} sprite when the mouse
+is clicked.
+
+\begin{figure}
+\gr{obeys}{.75}
+\caption{Move towards an object near the center sensor}\label{fig.move-to}
+\end{figure}
+
+\subsection*{Distance to a sprite}
+
+The robot moves only when it detects that the pointer is close. The
+sprite \p{Pointer} tracks the mouse pointer. The block
+\scrblk[-4]{distance-to-pointer} returns the distance in pixels from the
+sprite that runs it---here the \p{Thymio} sprite---to the \p{Pointer} sprite.
+The block can be found in the \bu{Sensing} palette.
+
+Next, we compare this distance with the distance $250$ that we decide is
+``close'' enough to be detected. In the palette \bu{Operators} you can
+find mathematical operators for performing comparisons:
+\scrblk{distance-less-than}.
+
+The block with comparison operator is a \emph{condition block}. The
+\p{if} block \scrblk[-15]{if} has an angular area for a condition block
+and a ``mouth'' in which you can place other blocks. The meaning of the
+\p{if}-block is:
+
+\begin{footnotesize}
+\begin{verbatim}
+if the condition is true then
+    the blocks contained in the "mouth" are run.
+\end{verbatim}
+\end{footnotesize}
+
+It follows that the rest of the blocks in the script in
+\cref{fig.move-to} will be run only when the \p{Pointer} sprite is close to
+the \p{Thymio} sprite.
+
+\subsection*{Direction to a sprite}
+
+The specification requires that the Thymio respond only if the pointer
+is detected in front of the center sensor. This is implemented by
+calling the block \scrblk[-6]{get-pointer-direction-block} which returns in
+\scrblk[-4]{direction-to-pointer} the direction of the \p{Pointer} from the
+front of the \p{Thymio} sprite. Its value is in degrees in the range 0 to
+360, clockwise; that is, directions just to the right of the \p{Thymio} will
+have low values, while directions just to the left of the \p{Thymio} will
+have values close to $360$. We decide that the \p{Pointer} is detected by
+the center sensor if the direction is greater than $325$ or less than $25$.
+
+\informationbox{User-defined
+blocks}{\scrblk[-6]{get-pointer-direction-block} and
+\scrblk[-4]{direction-to-pointer} are not predefined in Scratch. The
+implementation of these blocks is described in \cref{ch.implementation},
+but you can use the blocks without understanding the implementation.}
+
+A second \p{if}-block is used to run blocks only when the direction to
+the \p{Pointer} is greater than $325$ or less than $25$. The \bu{Operators}
+palette contains the operator \scrblk{or} which enables us to combine
+the two conditions into one. The result is a \emph{compound condition}
+that is true if either of its parts is true.
+
+If the compound condition is true, we turn the \p{Thymio} to face the
+\p{Pointer} sprite using the block \scrblk[-6]{point-towards-pointer} from the
+\bu{Motions} palette, and we change the costume so that the red light
+next to the center sensor is turned on.
+
+
+\subsection*{Approaching a sprite}
+
+If the \p{Thymio} sprite is close to the \p{Pointer} sprite and is pointed in
+the right direction, the robot must approach the sprite. We use
+\scrblk[-15]{repeat-until} which is similar to the \p{forever} block in
+that it causes the blocks contained in its ``mouth'' to be run again and
+again, but it is different in that it has a condition like an
+\p{if}-block. The movement of the \p{Thymio} sprite must stop if the
+distance to the \p{Pointer} sprite is too small and this is checked by
+the condition block \scrblk[-8]{distance-to-pointer-60}.

@@ -1,0 +1,12 @@
+*.bat
+*.zip
+*.bbl
+*.blg
+*.aux
+*.gz
+*.log
+*.toc
+*~
+Python_start_EN
+books
+demos

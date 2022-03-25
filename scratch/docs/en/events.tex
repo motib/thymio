@@ -1,0 +1,105 @@
+\chap{Programming with Events}\label{ch.events}
+
+\sect{Events}
+
+\scrprj{tap-on-off}
+
+In VPL an instruction consists of an event block followed by one or
+more action blocks:
+
+\gr{first}{.3}
+
+\emph{Each time} the event occurs, the actions associated with the event
+are performed. Here, when the front button of the robot is touched, the
+top light is turned on with color red, and when the back button is
+touched, the light becomes blue.
+
+In Scratch, the construction equivalent to an event-actions pair is the
+\emph{script}:
+
+\gr{tap-on-off}{.3}
+
+The image shows three scripts, each of which changes the costume of the
+sprite:
+
+\begin{itemize}
+
+\item Scratch programs are started by clicking on the \emph{green flag}
+above the stage. When the green flag is clicked, the costume of the
+sprite is set to the \p{blank} costume, which displays the Thymio with
+the top lights off.
+
+\item The second script responds to the event of pressing the \bu{r}
+key. The costume is changed to the \p{red} costume which displays the
+top lights in red.
+
+\item Similarly, the third script turns the lights blue when the \bu{b}
+key is pressed.
+
+\end{itemize}
+
+The \bu{Events} palette contains the event blocks which are colored
+brown. Most of these blocks have a ``hat'' shape to indicate that they
+can only be the first block in a script. After an initial event block,
+other blocks can be added to the script.
+
+
+\sect{Costumes}
+
+A sprite can have one or more \emph{costumes} which specify how the
+sprite is displayed on the stage. The sprite's costumes are displayed
+when you click the \bu{Costumes} tab. You can create costumes by
+importing images, or by drawing or editing them using a paint program
+that is included in Scratch.
+
+\informationbox{The costumes for this project}{The project
+\bu{thymio-costumes} contains all the costumes used in these projects.
+Open this project and copy (drag and drop) the costumes you need to your
+\bu{Backpack}. Now open a new project and copy the costumes to the
+sprites.}
+
+\informationbox{Setting the size of the costumes}{You may have to adjust
+the size of the image of the sprites in order for a project to work. You
+can do this by shrinking a costume in the paint program: click on the
+icon \scrblk{shrink} and then on the image. A better solution is to use
+the block \scrblk[-10]{set-size} from the \bu{Looks} palette in the initialization
+of a program; experiment with different values until you have the size the need.}
+
+\sect{Sending and receiving messages}
+
+\scrprj{colors}
+
+Let us look now at the program \bu{colors} which changes the color of
+the top lights according to which button is touched
+(Figure~\ref{fig.colors}). In Scratch, touching a button is simulated by
+clicking on the image of a button. The click is interpreted by a second
+sprite called \p{Pointer}, which sends a message to the \p{Thymio} sprite,
+depending on which image is clicked: \p{center}, \p{front}, \p{back},
+\p{left}, \p{right}.
+
+\begin{figure}
+\gr{colors}{.25}
+\caption{Changing colors using messages}\label{fig.colors}
+\end{figure}
+
+Click on the \p{Pointer} sprite in the sprite area in the lower left of
+the Scratch window. Without going into detail, just notice that the
+second script uses the block \scrblk[-8]{broadcast-and-wait}, which causes
+a message (here, \p{front}) to be sent. Now, click back on the \p{Thymio}
+sprite and you will see the scripts in Figure~\ref{fig.colors}. Scripts
+starting with the event block \scrblk{when-i-receive} are performed when
+the corresponding message is received. We see that different messages
+cause the costume of the \p{Thymio} to be changed to ones displaying
+different colors.
+
+\sect{Sounds}
+
+\scrprj{bells}
+
+The VPL project \bu{bells} caused notes to be played when the buttons
+are touched. In Scratch, the \bu{Sound} palette contains a rich set of
+blocks for playing notes. Experiment with these blocks and then replace
+the blocks that change costumes in the above project with blocks that
+play different sounds when different buttons are clicked. You can also
+add sound blocks to the script in Figure~\ref{fig.colors}, so that the
+sprite both changes colors and plays sounds.

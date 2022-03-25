@@ -1,0 +1,153 @@
+\chap{Variables}\label{ch.variables}
+
+\sect{Using a variable to store a state}
+
+In advanced mode, VPL projects can use \emph{states} to remember
+situations and values. There are four elements (``quarters'') to the
+state block, so there are 16 different states. Scratch supports
+\emph{variables} which can be used to store values. They offer many more
+capabilities than VPL states, because there can be as many variables as
+we want and each variable can store a large range of values.
+
+\scrprj{tap-on-off-state}
+
+Let us implement the project \bu{tap-on-off} from the tutorial. Clicking
+on the \p{Thymio} sprite will turn the top light on if it is off and turn it
+off if it is on. A variable will remember the current state \p{on}
+or \p{off}. First, we \emph{declare} the variable. Go to the \bu{Data}
+palette and click \scrblk{make-variable}; give the variable a name that
+makes clear what its purpose is. An oval block with
+the variable's name appears, together with some new blocks:
+
+\gr{declare}{.3}
+
+\informationbox{Displaying the value of the variable}{The check next
+to the variable block is used to indicate that you want the variable and
+its current value to be displayed on the stage.}
+
+We need to \emph{initialize} the variable in the script that is
+run when the green flag is clicked. This gives the variable a
+value before it is used for the first time. Here, the block
+\scrblk[-8]{set-block} sets the value to \p{off}:
+
+\gr{tap-on-off-state-init}{.35}
+
+The following script starts with the block \scrblk[-8]{when-sprite-clicked},
+meaning that it begins to run when the sprite that contains the script is clicked:
+ 
+\gr{tap-on-off-state}{.4}
+
+It checks the value of the variable \p{state} and decides whether to
+switch the costume to the \p{red} costume or to the \p{blank} costume. It also
+changes the current value of the variable \p{state} to the opposite
+value.
+
+
+\sect{Using a variable to store a number}
+
+\scrprj{count-to-two}
+
+\scrprj{count-to-four-binary}
+
+\scrprj{add}
+
+Variables are commonly used to store numbers. The VPL project
+\bu{count-to-two} encoded the numbers 0 and 1 in states, and later
+projects counted to 4 and even to 16. We show how to use variables to
+count to two in binary, and leave the extension to other numbers as
+exercises.
+
+The Thymio robot displays the current state by lighting the
+diagonal segments of the circular lights around the buttons. We simulate
+this by displaying an orange circle between the buttons on an image:
+
+\gr{buttons-with-light}{.3}
+
+There are two aspects to the simulation in Scratch: (1) initializing,
+incrementing and checking the variable, and (2) displaying and erasing
+the orange circle.
+
+We first discuss the operations on the variable. The variable is named
+\p{count} and is initialized to zero in the first script:
+
+\gr{count-2-init}{.2}
+
+In the second script, the choice whether to display or erase the circle
+is done in an \p{if}-statement that checks if the value of
+\scrblk{count-block} is 0 or not, using the \scrblk[-20]{if-else} block:
+
+\gr{count-2}{.35}
+
+If the condition is true, the blocks in the first ``mouth'' are run; if
+not, the blocks in the second ``mouth'' are run.
+
+The actual display of the circle is done within the two blocks
+\scrblk{display-block} and \scrblk{erase-block} whose definition is
+given below.
+
+The final block of the script is \scrblk{change} which changes the
+(numerical) value in the variable by the amount written in the small
+square. Here, \scrblk{mod} adds 1 to the value of \scrblk{count-block}
+and then takes the remainder (called \p{mod}) by 2. The result will be
+either 0 or 1.
+
+\warningbox{Be sure not to confuse \scrblk{set-one} with
+\scrblk{change}. The first block ignores the current value in the
+variable and sets the variable to the value written in the small square.
+The second block takes the current value of the variable, adds the
+value written in the small square and then sets the value of the
+variable to the result of the computation. To subtract a value
+from the current value, simply change by a negative number.}
+
+\sect{Drawing on the stage}
+
+Scratch supports drawing on the stage using blocks available in the
+\bu{Pen} palette. We will not explain all the blocks here, just the ones
+used to display and erase the orange circle.
+
+In the initialization script, \scrblk{clear} erases existing marks on
+the stage , if any. The blocks \scrblk{display-block} and
+\scrblk{erase-block} contain \scrblk{stamp} which prints the image of
+the current costume of the sprite on the stage:
+
+\gr{display-erase}{.5}
+
+\warningbox{Be sure not to confuse sprites and stamps.
+A sprite is an actor in a Scratch animation; it has scripts and
+costumes. When it moves on the stage it does not leave a mark.
+The block \scrblk{stamp} makes a mark on the stage; the mark is the
+current costume of the sprite that runs the block. The stamp is not an
+actor and does not move, and the mark remains on the stage
+until removed by running \scrblk{clear}.}
+
+Don't use the \scrblk{clear} when you only need to erase one mark such
+as an orange circle. Instead, change the costume of the sprite to one
+that is all white and stamp it in exactly the same place as the mark of
+the orange circle.
+
+The block \scrblk{hide} is used in the initial script because we don't
+want to display the sprite, only the marks that it makes on the stage.
+
+\sect{Why two sprites?}
+
+There are two sprites in this project: a \p{Thymio} sprite (well, only
+the buttons), and a \p{circle} sprite. The \p{Thymio}
+sprite is the one that is clicked on; it broadcasts a message to the
+\p{circle} sprite. We don't want to sense a click on the \p{circle}
+sprite, because it may not be visible, and we don't want to stamp the
+\p{Thymio} sprite because we want marks of the circle, not of the
+buttons.
+
+\sect{Parameters}
+
+We want to use the blocks \scrblk{display-block} and
+\scrblk{erase-block} in more than one place with different values for
+the positions of the marks. The definitions of the blocks
+\scrblk[-15]{display-head} and \scrblk[-20]{erase-head} declare two
+\emph{parameters} called \p{x} and \p{y}. When the blocks are used, the
+x- and y-values of the position need to be provided in the small
+squares, just as is done in predefined blocks like \scrblk{go-to-block}.
+
+Within the definition of a block with parameters, the current values of
+the parameters are available as oval blocks that can be used like any
+other variable.
