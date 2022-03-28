@@ -68,7 +68,7 @@ the Thymio Robot in Python}
 
 \bigskip
 
-Version 0.1
+Version 0.2
 
 \begin{Large}
 \bigskip\bigskip\bigskip\bigskip
@@ -103,7 +103,7 @@ This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unpo
 
 \section{Introduction}\label{s.introduction}
 
-The Thymio II robot can be programmed in graphical languages for novices (VPL, VPL3, Blockly, Scratch) and in textual languages for those with experience in programming (Aseba, Python). This document is a tutorial on programming the Thymio II robot using Python. The subset of the Python language supported by the Thymio is sufficient to implement advanced algorithms such as those in \cite{elements}. Complete references on programming the Thymio are \cite{native,thymio,tdm}.
+The Thymio II robot can be programmed in graphical languages for novices (VPL, VPL3, Blockly, Scratch) and in textual languages for those with experience in programming (Aseba, Python). This document is a tutorial on programming the Thymio II robot using Python. The subset of the Python language supported by the Thymio is sufficient to implement advanced algorithms such as those in \cite{elements}. The complete references on programming the Thymio an be found in \cite{thymio} and \cite{tdm} documents how to program the Thymio in Python.
 
 The document assumes the following knowledge and skills:
 \begin{itemize}
@@ -168,7 +168,7 @@ If you have written graphical programs for the Thymio the software will already 
 \item[Linux] Follow the instructions at \url{https://www.thymio.org/linux-installation/}.
 \end{description}
 
-Download and install the Thonny environtment:\footnote{Thonny bundles a Python interpreter in its installation. Should you wish to use a different interpreter (at least version 3.6), after installing Thonny select the menu item  \bu{\footnotesize Run/Select interpreter} and then \bu{\footnotesize Alternative Python 3 interpreter or virtual environment}.}
+Download and install the Thonny environtment:\footnote{Thonny bundles a Python interpreter in its installation. Should you wish to use a different interpreter (at least version 3.8), after installing Thonny select the menu item  \bu{\footnotesize Run/Select interpreter} and then \bu{\footnotesize Alternative Python 3 interpreter or virtual environment}.}
 \begin{center}
 \url{https://thonny.org/}
 \end{center}
@@ -198,9 +198,7 @@ When you run it for the first time select the menu item \bu{Tools/Manage plug-in
 
 \section{An extended example}\label{s.example}
 
-We implement a \emph{Braitenberg vehicle} displaying the \emph{dogged} behavior \cite[Chapter~3]{elements}. Several versions of the program, each adding some feature, will be given. The programs are split into sections and each is explained separately.
-
-Notation: \li{n} refers to line \textsf{n} of the program.
+We implement a \emph{Braitenberg vehicle} displaying the \emph{dogged} behavior \cite[Chapter~3]{elements}. Several versions of the program, each adding some feature, will be given. The programs are split into sections and each is explained separately. Notation: \li{n} refers to line \textsf{n} of the program.
 
 \subsection*{The initial program}
 
@@ -434,7 +432,7 @@ Functions can be defined and called but only with positional arguments that are 
 
 \section{Interfacing with the Thymio}\label{s.interface}
 
-There are a large number of events, variables and functions that are predefined and used to interface with the Thymio robot. This section will explain some frequently used ones. You can look up the rest of them in the Thymio documentation \cite{thymio}.
+There are a large number of events, variables and functions that are predefined and used to interface with the Thymio robot. This section will explain some frequently used ones. You can look up the rest of them in the Thymio documentation \cite{thymio} (links under \textit{The programming language}).
 
 \subsection{Events}
 
@@ -558,7 +556,7 @@ Function& Action\\\hline
 
 \subsection{Math functions}
 
-Table~\ref{t.math} lists predefined mathematical functions. Many of them have a version prefixed with ^nf_^ which can be used on lists (arrays) of integers \cite{native}. Arguments are 16-bit signed integers as are the returned values.
+Table~\ref{t.math} lists predefined mathematical functions. Many of them have a version prefixed with ^nf_^ which can be used on lists (arrays) of integers. Arguments are 16-bit signed integers as are the returned values.
 
 \begin{table}[htb]
 \renewcommand{\arraystretch}{.85}
