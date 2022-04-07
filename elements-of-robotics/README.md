@@ -97,12 +97,13 @@ Notation
 5.6:  Distance from speed and time<br>
 5.7:  Odometry in two dimensions<br>
 5.8:  Odometry errors<br>
-5.9:  Wheel encoding (program for 5.1)<br>
 5.10: Correcting odometry errors<br>
-5.11: A robot that can only rotate (no program)<br>
-5.12: Robotic crane<br>
-5.12: Robotic crane alternatives (also Python)<br>
-5.13: Holonomic and non-holonomic motion (no program)<br><br>
+5.9:  Combined effect of odometry errors (omitted)<br>
+5.11: Wheel encoding (program for 5.1)<br>
+5.12: A robot that can only rotate (no program)<br>
+5.13: Robotic crane<br>
+5.14: Robotic crane alternatives (also Python)<br>
+5.15: Holonomic and non-holonomic motion (no program)<br><br>
 
 6.1:  Setting the control period (no program)<br>
 6.2:  On-off controller<br>
