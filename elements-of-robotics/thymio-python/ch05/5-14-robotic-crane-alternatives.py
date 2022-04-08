@@ -3,24 +3,103 @@
 # Copyright 2017, 2022 by Moti Ben-Ari
 # CreativeCommons BY-SA 3.0
 
-# Center button to start, stop
+# Center button to stop
+# Left button for mode 1: fast_motor, long_period
+# Right button for mode 2: slow_motor, short_period
+# Forward button for mode 3: fast_motor, long_period
+#   but moves backwards when the tape is detected
 # Show state in circle leds
+# Top leds red when tape found but
+#   change to green when going backwards in mode 3
 
-LONG_PERIOD = 1000  # period of fast actuator sample
-SHORT_PERIOD = 200  # period of slow actuator sample
-FAST_MOTOR = 400    # motor power fast actuator
-SLOW_MOTOR = 200    # motor power slow actuator
-THRESHOLD = 300     # threshold to find tape
-
-# 0=off, 1=fast, 2=slow, 3=both
-state = 0
-
-# Tape found
-found = 0
+long_period  = 750    # period of fast actuator sample
+short_period = 200    # period of slow actuator sample
+fast_motor   = 400    # motor power fast actuator
+slow_motor   = 200    # motor power slow actuator
+threshold    = 300    # threshold to find tape
+state        = 0      # 0=off, 1=fast, 2=slow, 3=both
+found        = False  # tape found
 
 timer_period[0] = 0
-nf_leds_circle(0,0,0,0,0,0,0,0)
-nf_leds_top(0,0,0)
+set_circle_leds()
+set_top_leds()
+
+# Stop everything
+def stop():
+    global motor_right_target, motor_left_target
+    global state, found
+    state = 0
+    found = False
+    motor_left_target = 0
+    motor_right_target = 0
+    timer_period[0] = 0
+
+# Bottom sensors determine if tape is found
+def found_tape():
+    global found
+    if prox_ground_delta[0] < threshold or \
+       prox_ground_delta[1] < threshold:
+      found = True
+      set_top_leds()
+    else:
+      found = False
+      set_top_leds()
+
+# Check if tape found and process according to state
+@onevent
+def timer0():
+    global state, timer_period
+    global motor_left_target, motor_right_target
+    # state 0: do nothing
+    found_tape()
+    if state == 0: return 
+    # state 1:  of long arm, start turn=1
+    elif state == 1 and found:
+        stop()
+    elif state == 2 and found:
+        stop()
+    elif state == 3 and found:
+        set_mode(4, -slow_motor, short_period)
+    elif state == 4 and not found:
+        stop()
+
+# Stop robot
+@onevent
+def button_center():
+    if button_center == 0:
+            stop()
+
+# Set mode: state, motors, period
+def set_mode(s, m, p):
+    global motor_right_target, motor_left_target, state, timer_period
+    state = s
+    motor_left_target = m
+    motor_right_target = m
+    timer_period[0] = p
+    set_circle_leds()
+    set_top_leds()
+
+# Set mode 1
+@onevent
+def button_left():
+    if button_left == 0: set_mode(1, fast_motor, long_period)
+
+# Set mode 2
+@onevent
+def button_right():
+    if button_right == 0: set_mode(2, slow_motor, short_period)
+
+# Set mode 3
+@onevent
+def button_forward():
+    if button_forward == 0: set_mode(3, fast_motor, long_period)
+
+# Set top leds: red if found but green if going backwards
+def set_top_leds():
+    global state, found
+    if found: nf_leds_top(32,0,0)
+    else:     nf_leds_top(0,0,0)
+    if state == 4: nf_leds_top(0,32,0)
 
 # Display state in circle leds
 def set_circle_leds():
@@ -29,85 +108,3 @@ def set_circle_leds():
   if state==2: nf_leds_circle(32,32,0,0,0,0,0,0)  
   if state==3: nf_leds_circle(32,32,32,0,0,0,0,0) 
   if state==4: nf_leds_circle(32,32,32,32,0,0,0,0) 
-  if state==5: nf_leds_circle(32,32,32,32,32,0,0,0) 
-
-def stop():
-  global motor_right_target, motor_left_target, state, found, timer_period
-  state = 0
-  found = 0
-  motor_left_target = 0
-  motor_right_target = 0
-  timer_period[0] = 0
-
-@onevent
-def button_center():
-    global state
-    if button_center == 0:
-      nf_leds_circle(0,0,0,0,0,0,0,0)
-      nf_leds_top(0,0,0)
-      stop()
-
-@onevent
-def button_left():
-    global motor_right_target, motor_left_target, state, timer_period
-    if button_left == 0:
-      state = 1
-      nf_leds_top(0,0,0)
-      set_circle_leds()
-      motor_left_target = FAST_MOTOR
-      motor_right_target = FAST_MOTOR
-      timer_period[0] = LONG_PERIOD
-
-@onevent
-def button_right():
-    global motor_right_target, motor_left_target, state, timer_period
-    if button_right == 0:
-      state = 2
-      nf_leds_top(0,0,0)
-      set_circle_leds()
-      motor_left_target =  SLOW_MOTOR
-      motor_right_target = SLOW_MOTOR
-      timer_period[0] = SHORT_PERIOD
-
-@onevent
-def button_forward():
-    global motor_right_target, motor_left_target, state, timer_period
-    if button_forward == 0:
-      state = 3
-      nf_leds_top(0,0,0)
-      set_circle_leds()
-      motor_left_target =  FAST_MOTOR
-      motor_right_target = FAST_MOTOR
-      timer_period[0] = LONG_PERIOD
-
-def found_tape():
-    global found
-    if prox_ground_delta[0] < THRESHOLD or \
-       prox_ground_delta[1] < THRESHOLD:
-      found = 1
-    else:
-      found = 0
-
-@onevent
-def timer0():
-  global state, motor_left_target, motor_right_target, timer_period
-  # State 0: do nothing
-  found_tape()
-  if state == 0: return 
-  # State 1:  of long arm, start turn=1
-  elif state == 1 and found == 1:
-    nf_leds_top(0,32,0)
-    stop()
-  elif state == 2 and found == 1:
-    nf_leds_top(0,0,32)
-    stop()
-  elif state == 3 and found == 1:
-    state = 4    
-    nf_leds_top(32,0,0)
-    set_circle_leds()
-    motor_left_target =  -SLOW_MOTOR
-    motor_right_target = -SLOW_MOTOR
-    timer_period[0] = SHORT_PERIOD
-  elif state == 4 and found == 0:
-    nf_leds_top(32,32,32)
-    stop()

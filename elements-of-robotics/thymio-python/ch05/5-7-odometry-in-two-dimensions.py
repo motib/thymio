@@ -11,7 +11,7 @@ LEFT = 200      # Power setting of left wheel
 RIGHT = 300     # Power setting of right wheel
 SPEED = 32      # speed of robot per 100 power setting (*10)
 
-state = 0    # 0 = off, 1 = run
+state = 0    # 0 = off, 1 = on
 time  = 0    # Counter of tenths of seconds
 
 # Set timer to expire every tenth of a second
