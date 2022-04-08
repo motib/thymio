@@ -97,8 +97,8 @@ Notation
 5.6:  Distance from speed and time<br>
 5.7:  Odometry in two dimensions<br>
 5.8:  Odometry errors<br>
+5.9:  Combined effect of odometry errors<br>
 5.10: Correcting odometry errors<br>
-5.9:  Combined effect of odometry errors (omitted)<br>
 5.11: Wheel encoding (program for 5.1)<br>
 5.12: A robot that can only rotate (no program)<br>
 5.13: Robotic crane<br>
@@ -186,7 +186,3 @@ For the following activities use file gray-areas{.tex, .pdf} in the print direct
 16.4:  Homogeneous transforms (no program)<br>
 16.5:  Multiple Euler angles (no program)<br>
 16.6:  Distinct Euler angles (no program)<br>
-
-
-
-
